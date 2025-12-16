@@ -5,7 +5,7 @@ data "aws_acm_certificate" "site_cert" {
 
 # Target Group for Wordpress
 resource "aws_lb_target_group" "wordpress_tg" {
-  name        = "${var.project_name}-wordpress-tg"
+  name        = "wordpress-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -25,7 +25,7 @@ resource "aws_lb_target_group" "wordpress_tg" {
 }
 
 resource "aws_lb_target_group" "microservice_tg" {
-  name        = "${var.project_name}-microservice-tg"
+  name        = "microservice-tg"
   port        = 3000
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -38,7 +38,7 @@ resource "aws_lb_target_group" "microservice_tg" {
 }
 
 resource "aws_lb" "ecs_alb" {
-  name               = "${var.project_name}-ecs-routing-alb"
+  name               = "ecs-routing-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [var.alb_sg_id]
