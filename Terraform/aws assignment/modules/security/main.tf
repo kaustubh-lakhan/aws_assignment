@@ -36,7 +36,14 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  egress {
+    description        = "Allow traffic to ECS Tasks on port 3000"
+    from_port          = 3000
+    to_port            = 3000
+    protocol           = "tcp"
+    # References the ID of the ECS Security Group
+    security_groups    = [aws_security_group.ecs_sg.id] 
+  }
   tags = {
     Name = "${var.project_name}-alb-sg"
   }
@@ -60,6 +67,14 @@ resource "aws_security_group" "ecs_sg" {
     description     = "Allow HTTPS from ALB"
     from_port       = 443
     to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+    ingress {
+    description     = "Allow HTTPS from ALB"
+    from_port       = 3000
+    to_port         = 3000
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
