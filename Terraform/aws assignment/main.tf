@@ -45,8 +45,8 @@ module "secrets" {
 
 module "iam" {
   source = "./modules/iam"
-  project_name = "assignment-cloudzenia"
-  secret_arn = module.secrets.secret_arn 
+  project_name = "assignment-cloudzenia" 
+  secret_arn = module.secrets.secret_arn
 }
 
 output "ecs_task_execution_role_arn" {
